@@ -13,7 +13,7 @@ dotenv.config();
 const PORT = process.env.PORT || 3000;
 
 const corsOptions = {
-  origin: "http://localhost:5173",
+  origin: "https://form-front-end-8g17-sanket-wasniks-projects.vercel.app",
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization"],
 };
