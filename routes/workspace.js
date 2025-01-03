@@ -48,41 +48,6 @@ router.get("/formBot/:formName", async (req, res) => {
   }
 });
 
-// // POST: Add a new element (bubble) to the form
-// router.post("/form/:formName", authMiddleware, async (req, res) => {
-//   const { formName } = req.params; // Use form name from the URL
-//   const bubbleData = req.body; // Bubble data from the request body
-
-//   try {
-//     // Find the workspace that contains the specified form name
-//     const workspace = await Workspace.findOne({
-//       "forms.name": formName,
-//       user: req.user.id, // Ensure the workspace belongs to the logged-in user
-//     });
-
-//     if (!workspace) {
-//       return res.status(404).json({ message: "Form not found" });
-//     }
-
-//     // Find the specific form by its name
-//     const form = workspace.forms.find((f) => f.name === formName);
-//     if (!form) {
-//       return res.status(404).json({ message: "Form not found in workspace." });
-//     }
-
-//     // Add the bubble to the form's formElements array
-//     form.formElements.push(bubbleData);
-
-//     // Save the updated workspace
-//     await workspace.save();
-
-//     res.status(200).json({ message: "Bubble added successfully", form });
-//   } catch (error) {
-//     console.error("Error adding bubble:", error);
-//     res.status(500).json({ message: "Server error" });
-//   }
-// });
-
 // POST: Add new elements (bubbles) to the form
 router.post("/form/:formName", authMiddleware, async (req, res) => {
   const { formName } = req.params; // Use form name from the URL

@@ -12,8 +12,6 @@ dotenv.config();
 // Get Dashboard
 router.get("/dashboard", authMiddleware, async (req, res) => {
   try {
-    // console.log("Requesting user ID:", req.user.id);
-    // console.log("Request Body:", req.body);
     const dashboard = await Dashboard.findOne({ user: req.user.id });
     if (!dashboard) {
       const newDashboard = new Dashboard({
@@ -31,45 +29,6 @@ router.get("/dashboard", authMiddleware, async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 });
-
-// // Create Folder or Form
-// router.post("/dashboard", authMiddleware, async (req, res) => {
-//   const { name, type, folderName, dashboardOwner } = req.body; // Add dashboardOwner to the request body
-//   const userEmail = dashboardOwner === "my" ? req.user.email : dashboardOwner;
-
-//   try {
-//     const owner = await User.findOne({ email: userEmail });
-//     const dashboard = await Dashboard.findOne({ user: owner._id });
-
-//     if (!dashboard) {
-//       return res.status(404).json({ message: "Dashboard not found" });
-//     }
-
-//     if (type === "folder") {
-//       if (dashboard.mainDirectory.folders.has(name)) {
-//         return res.status(400).json({ message: "Folder already exists" });
-//       }
-//       dashboard.mainDirectory.folders.set(name, []);
-//     } else if (type === "form") {
-//       if (folderName) {
-//         if (!dashboard.mainDirectory.folders.has(folderName)) {
-//           return res.status(400).json({ message: "Folder does not exist" });
-//         }
-//         dashboard.mainDirectory.folders.get(folderName).push(name);
-//       } else {
-//         dashboard.mainDirectory.forms.push(name);
-//       }
-//     } else {
-//       return res.status(400).json({ message: "Invalid type" });
-//     }
-
-//     await dashboard.save();
-//     res.status(201).json({ message: `${type} created successfully` });
-//   } catch (error) {
-//     console.log("Error creating folder or form", error);
-//     res.status(500).json({ message: "Server error" });
-//   }
-// });
 
 // POST: Create Folder or Form
 router.post("/dashboard", authMiddleware, async (req, res) => {
@@ -129,49 +88,6 @@ router.post("/dashboard", authMiddleware, async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 });
-
-// // Delete Folder or Form
-// router.delete("/dashboard", authMiddleware, async (req, res) => {
-//   const { name, type, folderName, dashboardOwner } = req.body; // Add dashboardOwner to the request body
-//   const userEmail = dashboardOwner === "my" ? req.user.email : dashboardOwner;
-
-//   try {
-//     const owner = await User.findOne({ email: userEmail });
-//     const dashboard = await Dashboard.findOne({ user: owner._id });
-
-//     if (!dashboard) {
-//       return res.status(404).json({ message: "Dashboard not found" });
-//     }
-
-//     if (type === "folder") {
-//       if (!dashboard.mainDirectory.folders.has(name)) {
-//         return res.status(400).json({ message: "Folder does not exist" });
-//       }
-//       dashboard.mainDirectory.folders.delete(name);
-//     } else if (type === "form") {
-//       if (folderName) {
-//         if (!dashboard.mainDirectory.folders.has(folderName)) {
-//           return res.status(400).json({ message: "Folder does not exist" });
-//         }
-//         const updatedForms = dashboard.mainDirectory.folders
-//           .get(folderName)
-//           .filter((form) => form !== name);
-//         dashboard.mainDirectory.folders.set(folderName, updatedForms);
-//       } else {
-//         dashboard.mainDirectory.forms = dashboard.mainDirectory.forms.filter(
-//           (form) => form !== name
-//         );
-//       }
-//     } else {
-//       return res.status(400).json({ message: "Invalid type" });
-//     }
-
-//     await dashboard.save();
-//     res.status(200).json({ message: `${type} deleted successfully` });
-//   } catch (error) {
-//     res.status(500).json({ message: "Server error" });
-//   }
-// });
 
 // Delete Folder or Form
 router.delete("/dashboard", authMiddleware, async (req, res) => {
